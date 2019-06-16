@@ -29,3 +29,7 @@
     composes: cell;
     background-color: #006;
 }
+
+.formulaEmpty {
+    composes: formula;
+}

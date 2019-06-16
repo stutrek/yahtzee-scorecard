@@ -35,6 +35,7 @@ export interface FormulaBox {
     helpText: string;
     readonly type: BoxOptionType.Formula;
     formula: string;
+    calculateIf?: string;
 }
 
 export type BoxList = [
@@ -70,6 +71,6 @@ export interface Game {
 }
 
 export interface UIPreferences {
+    [index: string]: boolean | string | number;
     showScoresBeforeComplete: boolean;
-    showBonusBeforeComplete: boolean;
 }

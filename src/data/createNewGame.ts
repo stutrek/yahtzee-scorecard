@@ -42,12 +42,21 @@ const getInitialBoxes = (): BoxList => [
         helpText: '',
         type: BoxOptionType.Formula,
         formula: 'SUM(A1:A6)',
+        calculateIf: `
+        OR(
+            PREFS("showScoresBeforeComplete"), 
+            COUNTA(A1:A6) = 6
+        )`,
     },
     {
         name: 'Bonus',
         helpText: '63 or greater on top earns a 35 bonus',
         type: BoxOptionType.Formula,
-        formula: 'IF(A7 = "", "", IF(A7 >= 63, 35, 0))',
+        formula: `IF(
+            ISBLANK(A7), 
+            NULL, 
+            IF(A7 > 62, 35, 0)
+        )`,
     },
     {
         name: 'Three of a Kind',
@@ -99,6 +108,11 @@ const getInitialBoxes = (): BoxList => [
         helpText: '',
         type: BoxOptionType.Formula,
         formula: 'SUM(A7:A16)',
+        calculateIf: `
+        OR(
+            PREFS("showScoresBeforeComplete"), 
+            COUNTA(A7:A16) = 10
+        )`,
     },
 ];
 

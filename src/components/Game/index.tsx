@@ -1,15 +1,35 @@
 import React from 'react';
 import styles from './game.module.css';
 
-import { Game, Player, BoxOptionType } from '../../types';
+import { Game, Player, BoxOptionType, FormulaBox } from '../../types';
+import parser from '../../data/parser';
 
 interface GameProps {
     game: Game;
 }
+
 interface PlayersProps {
     players: Player[];
     row: number;
 }
+
+interface FormulaBoxProps {
+    player: Player;
+    box: FormulaBox;
+}
+
+const FormulaBoxView: React.FC<FormulaBoxProps> = ({ player, box }) => {
+    const shouldShow = box.calculateIf ? parser.parse(box.calculateIf).result : false;
+    if (shouldShow === false) {
+        return <div className={styles.formulaEmpty} />;
+    }
+    const result = parser.parse(box.formula).result;
+    return (
+        <div className={styles.formula}>
+            <span>{result}</span>
+        </div>
+    );
+};
 
 const Row: React.FC<PlayersProps> = ({ players, row }) => {
     return (
@@ -19,13 +39,11 @@ const Row: React.FC<PlayersProps> = ({ players, row }) => {
             </div>
             {players.map((player, i) => {
                 const box = player.boxes[row];
+                parser.player = player;
                 switch (box.type) {
                     case BoxOptionType.Formula:
-                        return (
-                            <div className={styles.formula} key={i}>
-                                <span>F</span>
-                            </div>
-                        );
+                        return <FormulaBoxView player={player} box={box} key={i} />;
+
                     default:
                         return (
                             <div className={styles.cell} key={i}>

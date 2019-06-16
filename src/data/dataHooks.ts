@@ -4,31 +4,32 @@ import createNewGame from './createNewGame';
 import db from './db';
 
 let preferenceCache: UIPreferences | undefined = undefined;
+let loading = false;
 
 export const useUIPreferences = (): [boolean, UIPreferences | undefined, Function] => {
-    let [loading, setLoading] = useState(false);
     let [state, setPreferencesState] = useState(preferenceCache);
 
-    const setPreferences = (newPrefs: UIPreferences) => {
+    const setPreferences = async (newPrefs: UIPreferences, save = true) => {
+        loading = false;
         preferenceCache = newPrefs;
-        db.preferences.put(newPrefs);
         setPreferencesState(newPrefs);
+        if (save) {
+            db.preferences.clear();
+            db.preferences.put(newPrefs);
+        }
     };
 
     if (state === undefined && loading === false) {
         loading = true;
-        setLoading(true);
         db.preferences
             .toCollection()
             .first()
             .then(preferences => {
-                setLoading(false);
                 if (preferences) {
-                    setPreferences(preferences);
+                    setPreferences(preferences, false);
                 } else {
                     setPreferences({
                         showScoresBeforeComplete: false,
-                        showBonusBeforeComplete: false,
                     });
                 }
             });
