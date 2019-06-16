@@ -7,14 +7,14 @@ export enum BoxOptionType {
 }
 
 export interface EntryBox {
-    name: string;
-    helpText: string;
+    readonly name: string;
+    readonly helpText: string;
     points?: number;
 }
 
 export interface DieCountBox extends EntryBox {
     readonly type: BoxOptionType.DieCount;
-    multiplier: 1 | 2 | 3 | 4 | 5 | 6;
+    readonly multiplier: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
 export interface SpecificValueBox extends EntryBox {
@@ -24,6 +24,8 @@ export interface SpecificValueBox extends EntryBox {
 
 export interface AnyNumberBox extends EntryBox {
     readonly type: BoxOptionType.AnyNumber;
+    readonly max: number;
+    readonly min: number;
 }
 
 export interface BonusBox extends EntryBox {
@@ -31,11 +33,11 @@ export interface BonusBox extends EntryBox {
 }
 
 export interface FormulaBox {
-    name: string;
-    helpText: string;
+    readonly name: string;
+    readonly helpText: string;
     readonly type: BoxOptionType.Formula;
-    formula: string;
-    calculateIf?: string;
+    readonly formula: string;
+    readonly calculateIf?: string;
 }
 
 export type BoxList = [

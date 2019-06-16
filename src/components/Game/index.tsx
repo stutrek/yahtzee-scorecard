@@ -4,6 +4,9 @@ import styles from './game.module.css';
 import { Game, Player, BoxOptionType, FormulaBox } from '../../types';
 import parser from '../../data/parser';
 
+import { useDispatch } from 'react-redux';
+import { openEditor } from '../Editor/actions';
+
 interface GameProps {
     game: Game;
 }
@@ -32,6 +35,7 @@ const FormulaBoxView: React.FC<FormulaBoxProps> = ({ player, box }) => {
 };
 
 const Row: React.FC<PlayersProps> = ({ players, row }) => {
+    const dispatch = useDispatch();
     return (
         <React.Fragment>
             <div className={styles.label}>
@@ -46,7 +50,11 @@ const Row: React.FC<PlayersProps> = ({ players, row }) => {
 
                     default:
                         return (
-                            <div className={styles.cell} key={i}>
+                            <div
+                                className={styles.cell}
+                                key={i}
+                                onClick={() => dispatch(openEditor({ player: i, box: row }))}
+                            >
                                 <span>{box.points}</span>
                             </div>
                         );

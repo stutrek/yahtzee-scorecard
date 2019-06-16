@@ -62,11 +62,15 @@ const getInitialBoxes = (): BoxList => [
         name: 'Three of a Kind',
         helpText: 'Sum of all five dice',
         type: BoxOptionType.AnyNumber,
+        max: 30,
+        min: 6,
     },
     {
         name: 'Four of a Kind',
         helpText: 'Sum of all five dice',
         type: BoxOptionType.AnyNumber,
+        max: 30,
+        min: 6,
     },
     {
         name: 'Full House',
@@ -90,6 +94,8 @@ const getInitialBoxes = (): BoxList => [
         name: 'Chance',
         helpText: 'Sum of all dice, no requirements',
         type: BoxOptionType.AnyNumber,
+        max: 30,
+        min: 6,
     },
     {
         name: 'Yahtzee',

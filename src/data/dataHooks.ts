@@ -51,7 +51,7 @@ export const useCurrentGame = (): [Game | undefined, Function, Function] => {
             }
             sessionStorage.setItem('current-game', newGame.id);
         } else {
-            db.games.put(newGame);
+            db.games.put(newGame, newGame.id);
         }
         setLoading(false);
         setGame(newGame);
