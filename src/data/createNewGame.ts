@@ -125,7 +125,7 @@ const getInitialBoxes = (): BoxList => [
         calculateIf: `
         OR(
             PREFS("showScoresBeforeComplete"), 
-            COUNTA(A7:A16) = 10
+            COUNTA(A7:A15) = 9
         )`,
     },
 ];

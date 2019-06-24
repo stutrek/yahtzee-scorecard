@@ -27,7 +27,7 @@ parser.on(
         if (cellCoord.row.index >= this.player.boxes.length) {
             throw new RangeError('Index too high');
         }
-        done(calculateBox(this.player, this.player.boxes[cellCoord.row.index]));
+        done(calculateBox(this.player.boxes[cellCoord.row.index]));
     }.bind(parser)
 );
 parser.on(
@@ -41,7 +41,7 @@ parser.on(
 
         for (var row = startCellCoord.row.index; row <= endCellCoord.row.index; row++) {
             const box = this.player.boxes[row];
-            fragment.push(calculateBox(this.player, box));
+            fragment.push(calculateBox(box));
         }
 
         done([fragment]);

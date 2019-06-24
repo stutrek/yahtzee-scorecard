@@ -22,7 +22,8 @@ interface FormulaBoxProps {
 }
 
 const FormulaBoxView: React.FC<FormulaBoxProps> = ({ player, box }) => {
-    const shouldShow = box.calculateIf ? parser.parse(box.calculateIf).result : false;
+    parser.player = player;
+    const shouldShow = box.calculateIf ? parser.parse(box.calculateIf).result : true;
     if (shouldShow === false) {
         return <div className={styles.formulaEmpty} />;
     }
@@ -43,7 +44,6 @@ const Row: React.FC<PlayersProps> = ({ players, row }) => {
             </div>
             {players.map((player, i) => {
                 const box = player.boxes[row];
-                parser.player = player;
                 switch (box.type) {
                     case BoxOptionType.Formula:
                         return <FormulaBoxView player={player} box={box} key={i} />;
