@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 
 import { Game, BoxOptionType } from '../../types';
 
 import AnyNumberInput from './AnyNumberInput';
-import DieCountInput from './DieCountInput';
+import CountCountInput from './CountInput';
 import SpecificValueInput from './SpecificValueInput';
 
 import { useDispatch } from 'react-redux';
@@ -53,17 +53,29 @@ const EditorContainer: React.FC<EditorContainerProps> = ({
         case BoxOptionType.AnyNumber:
             Component = AnyNumberInput;
             break;
-        case BoxOptionType.DieCount:
-            Component = DieCountInput;
+        case BoxOptionType.Count:
+            Component = CountCountInput;
             break;
         case BoxOptionType.SpecificNumber:
             Component = SpecificValueInput;
             break;
     }
+
+    if (Component === undefined) {
+        return null;
+    }
+
+    const closeOnDirectClick = (event: SyntheticEvent) => {
+        if (event.target === event.currentTarget) {
+            dispatch(closeEditor());
+        }
+    }
+
     return (
-        <div className={styles.container}>
-            <button onClick={() => dispatch(closeEditor)}>Close</button>
-            {Component && <Component box={box} save={save} />}
+        <div className={styles.container} onClick={closeOnDirectClick}>
+            <Component box={box} save={save}>
+                <button className={styles.close} onClick={() => dispatch(closeEditor())}>&times;</button>
+            </Component>
         </div>
     );
 };

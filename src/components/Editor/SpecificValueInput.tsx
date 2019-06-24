@@ -12,13 +12,16 @@ interface SpecificValueProps extends EntryBoxProps {
     box: SpecificValueBox;
 }
 
-const SpecificValueEntry: React.FC<SpecificValueProps> = ({ box, save }) => {
+const SpecificValueEntry: React.FC<SpecificValueProps> = ({ box, save, children }) => {
     return (
         <div className={styles.specificValue}>
             <h3>{box.name}</h3>
-            <button onClick={() => save(0)}>0</button>
-            <button onClick={() => save(box.value)}>{box.value}</button>
-            <button onClick={() => save(undefined)}>Clear</button>
+            <div className={styles.close}>{children}</div>
+            <div className={styles.sideBySide}>
+                <button onClick={() => save(0)}>0</button>
+                <button onClick={() => save(box.value)}>{box.value}</button>
+                <button onClick={() => save(undefined)}>Clear</button>
+            </div>
         </div>
     );
 };

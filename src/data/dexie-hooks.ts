@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Dexie from 'dexie';
 
 type TableHook<T> = [boolean, undefined | T[]];
@@ -44,10 +44,10 @@ const removeListener = (db: Dexie, listener: Function) => {
 export const useItemById = <T>(
     db: Dexie,
     table: Dexie.Table<T, any>,
-    id: string | number
+    id: string | number | undefined
 ): ItemHook<T> => {
     const [value, setValue] = useState<T | undefined>();
-    let [loading, setLoading] = useState(false);
+    let [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const handleChange = async (changes: IDatabaseChangeMock[]) => {
@@ -60,15 +60,18 @@ export const useItemById = <T>(
         };
         addListener(db, handleChange);
         return () => removeListener(db, handleChange);
-    });
-    if (value === undefined && loading === false) {
+    }, [db, table, id]);
+
+    useMemo(() => {
         setLoading(true);
-        loading = true;
         table.get(id).then(newValue => {
-            setValue(newValue);
+            if (newValue) {
+                setValue(newValue);
+            }
             setLoading(false);
         });
-    }
+      
+    }, [db, table, id]);
 
     return [loading, value];
 };
@@ -79,7 +82,7 @@ export const useTable = <T>(
     // initialValue: T
 ): TableHook<T> => {
     const [values, setValues] = useState<T[] | undefined>();
-    let [loading, setLoading] = useState(false);
+    let [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const handleChange = async (changes: IDatabaseChangeMock[]) => {
@@ -93,18 +96,15 @@ export const useTable = <T>(
         };
         addListener(db, handleChange);
         return () => removeListener(db, handleChange);
-    });
+    }, [db, table]);
 
-    if (values === undefined && loading === false) {
+    useMemo(() => {
         setLoading(true);
-        loading = true;
         table.toArray().then(items => {
-            // if (items.length === 0) {
-            //     items = [initialValue];
-            // }
             setValues(items);
             setLoading(false);
         });
-    }
+    }, [db, table]);
+
     return [loading, values];
 };

@@ -11,14 +11,14 @@ interface EntryBoxProps {
 interface AnyNumberProps extends EntryBoxProps {
     box: AnyNumberBox;
 }
-const AnyNumberEntry: React.FC<AnyNumberProps> = ({ box, save }) => {
-    const [valueEntered, updateValue] = useState();
+const AnyNumberEntry: React.FC<AnyNumberProps> = ({ box, save, children }) => {
+    const [valueEntered, updateValue] = useState(box.points || 0);
 
     const keyIsValid = (key: number) => {
         if (valueEntered * 10 + key > box.max) {
             return false;
         }
-        if (key < box.min && key * 10 > box.max) {
+        if (valueEntered === undefined && key < box.min && key * 10 > box.max) {
             return false;
         }
         return true;
@@ -42,9 +42,19 @@ const AnyNumberEntry: React.FC<AnyNumberProps> = ({ box, save }) => {
         }
     };
 
+    const handleZero = () => {
+        if (valueEntered === 0) {
+            save(0);
+        } else {
+            handleClick(0);
+        }
+
+    }
+
     const backspace = () => {
-        if (valueEntered === undefined || valueEntered < 10) {
-            updateValue(undefined);
+        if (valueEntered < 10) {
+            updateValue(0);
+            return;
         }
         const value = Math.floor(valueEntered / 10);
         updateValue(value);
@@ -54,12 +64,16 @@ const AnyNumberEntry: React.FC<AnyNumberProps> = ({ box, save }) => {
         if (valueEntered >= box.min && valueEntered <= box.max) {
             save(valueEntered);
         }
+        if (valueEntered === 0) {
+            save(undefined);
+        }
     };
 
     return (
         <div className={styles.anyNumber}>
             <h3>{box.name}</h3>
-            <h4>{valueEntered}</h4>
+            <div className={styles.close}>{children}</div>
+            <h4 className={styles.valueEntered}>&nbsp;{valueEntered || undefined}&nbsp;</h4>
             <div className={styles.keypad}>
                 <button onClick={() => handleClick(1)}>1</button>
                 <button onClick={() => handleClick(2)}>2</button>
@@ -70,11 +84,13 @@ const AnyNumberEntry: React.FC<AnyNumberProps> = ({ box, save }) => {
                 <button onClick={() => handleClick(7)}>7</button>
                 <button onClick={() => handleClick(8)}>8</button>
                 <button onClick={() => handleClick(9)}>9</button>
-                <button onClick={() => handleClick(9)}>0</button>
+                <button onClick={handleZero}>0</button>
                 <button onClick={backspace}>⌫</button>
             </div>
-            <button onClick={() => saveIfValid}>Save</button>
-            <button onClick={() => save(undefined)}>Clear</button>
+            <div className={styles.sideBySide}>
+                <button onClick={saveIfValid}>Save</button>
+                <button onClick={() => save(undefined)}>Clear</button>
+            </div>
         </div>
     );
 };

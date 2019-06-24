@@ -1,18 +1,18 @@
 import Dexie from 'dexie';
 import 'dexie-observable';
 
-import { Game, UIPreferences } from '../types';
+import { Game, UIPreference } from '../types';
 
 class YahtzeeDB extends Dexie {
     games: Dexie.Table<Game, string>;
-    preferences: Dexie.Table<UIPreferences, number>;
+    preferences: Dexie.Table<UIPreference, string>;
 
     constructor(dbName: string) {
         super(dbName);
 
         this.version(1).stores({
             games: '$$id',
-            preferences: '++',
+            preferences: 'key',
         });
 
         this.games = this.table('games');

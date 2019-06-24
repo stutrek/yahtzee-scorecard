@@ -21,8 +21,8 @@
 .label {
     composes: cell;
     background-color: #600;
-    justify-content: right;
-    text-align: right;
+    justify-content: left;
+    text-align: left;
 }
 
 .formula {

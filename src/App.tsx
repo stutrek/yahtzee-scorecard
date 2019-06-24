@@ -13,6 +13,7 @@ import parser from './data/parser';
 const App: React.FC = () => {
     const [prefsLoading, preferences] = useUIPreferences();
     const [game, updateGame] = useCurrentGame();
+    
     const editorState = useSelector((state: AppState) => state.editor);
 
     parser.preferences = preferences;

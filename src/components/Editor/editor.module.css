@@ -3,16 +3,60 @@
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vw;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: rgba(0, 0, 0, 0.4)
 }
 
 .inputs {
     background-color: black;
     border: 1px solid white;
-    border-radius: 10px;
+    border-radius: 1vh;
+    padding: 2vh;
+    position: relative;
+    font-size: 2.5vh;
+
+}
+
+.inputs button {
+    display: block;
+    font-size: inherit;
+    padding: 1vh 2vh;
+    color: var(--white);
+    border: 1px solid currentColor;
+    background-color: var(--black);
+    border-radius: 0.5vh;
+}
+
+.inputs button.selected, .inputs button:active {
+    color: var(--black);
+    background-color: var(--white);
+    border: 1px solid var(--white);
+}
+
+.close {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.close button {
+    border: none;
+    background: none;
+    padding: 0 0.5vh;
+    font-size: 3vh;
+}
+
+.close button:active {
+    color: var(--white);
+    background-color: var(--black);
+}
+
+.inputs h3 {
+    margin: 0 0 1vh;
+    font-size: 3vh;
 }
 
 .specificValue {
@@ -21,6 +65,78 @@
 .anyNumber {
     composes: inputs;
 }
-.dieCount {
+.count {
     composes: inputs;
+}
+
+.valueButtons {
+    margin: 2vh 0;
+}
+
+.valueButtons button {
+    margin: 0 0 0.5vh;
+    width: 100%;
+}
+.threeColumn {
+    composes: valueButtons;
+    column-count: 3;
+}
+.twoColumn {
+    composes: valueButtons;
+    column-count: 2;
+}
+
+.buttonSelected {
+    background-color: var(--white);
+    color: var(--black);
+}
+
+
+.valueEntered {
+    font-size: 4vh;
+    margin: 2vh;
+    text-align: center;
+    font-weight: normal;
+}
+
+.valueEntered:after {
+    content: " ";
+    border-right: 1px solid white;
+    animation: blink 1000ms infinite;
+}
+
+.keypad {
+    font-size: 3vh;
+    display: grid;
+    grid-gap: 1vh;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.sideBySide {
+    margin: 2vh 0 0;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.sideBySide button {
+    margin-right: 2vh; 
+}
+.sideBySide button:last-child {
+    margin-right: 0;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 1;
+    }
+    51% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
 }

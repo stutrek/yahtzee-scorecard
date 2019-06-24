@@ -1,5 +1,5 @@
 export enum BoxOptionType {
-    DieCount,
+    Count,
     SpecificNumber,
     AnyNumber,
     Bonus,
@@ -12,9 +12,10 @@ export interface EntryBox {
     points?: number;
 }
 
-export interface DieCountBox extends EntryBox {
-    readonly type: BoxOptionType.DieCount;
-    readonly multiplier: 1 | 2 | 3 | 4 | 5 | 6;
+export interface CountBox extends EntryBox {
+    readonly type: BoxOptionType.Count;
+    readonly count: number;
+    readonly multiplier: number;
 }
 
 export interface SpecificValueBox extends EntryBox {
@@ -41,12 +42,12 @@ export interface FormulaBox {
 }
 
 export type BoxList = [
-    DieCountBox,
-    DieCountBox,
-    DieCountBox,
-    DieCountBox,
-    DieCountBox,
-    DieCountBox,
+    CountBox,
+    CountBox,
+    CountBox,
+    CountBox,
+    CountBox,
+    CountBox,
     FormulaBox,
     FormulaBox,
     AnyNumberBox,
@@ -56,7 +57,7 @@ export type BoxList = [
     SpecificValueBox,
     AnyNumberBox,
     SpecificValueBox,
-    BonusBox,
+    CountBox,
     FormulaBox
 ];
 
@@ -72,7 +73,11 @@ export interface Game {
     players: Player[];
 }
 
+export interface UIPreference {
+    key: string,
+    value: boolean | string | number
+}
+
 export interface UIPreferences {
     [index: string]: boolean | string | number;
-    showScoresBeforeComplete: boolean;
 }

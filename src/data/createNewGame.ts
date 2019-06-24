@@ -4,38 +4,44 @@ const getInitialBoxes = (): BoxList => [
     {
         name: 'Ones',
         helpText: 'Sum of all 1s',
+        count: 5,
         multiplier: 1,
-        type: BoxOptionType.DieCount,
+        type: BoxOptionType.Count,
     },
     {
         name: 'Twos',
         helpText: 'Sum of all 2s',
+        count: 5,
         multiplier: 2,
-        type: BoxOptionType.DieCount,
+        type: BoxOptionType.Count,
     },
     {
         name: 'Threes',
         helpText: 'Sum of all 3s',
+        count: 5,
         multiplier: 3,
-        type: BoxOptionType.DieCount,
+        type: BoxOptionType.Count,
     },
     {
         name: 'Fours',
         helpText: 'Sum of all 4s',
+        count: 5,
         multiplier: 4,
-        type: BoxOptionType.DieCount,
+        type: BoxOptionType.Count,
     },
     {
         name: 'Fives',
         helpText: 'Sum of all 5s',
+        count: 5,
         multiplier: 5,
-        type: BoxOptionType.DieCount,
+        type: BoxOptionType.Count,
     },
     {
         name: 'Sixes',
         helpText: 'Sum of all 6s',
+        count: 5,
         multiplier: 6,
-        type: BoxOptionType.DieCount,
+        type: BoxOptionType.Count,
     },
     {
         name: 'Upper Total',
@@ -107,7 +113,9 @@ const getInitialBoxes = (): BoxList => [
         name: 'Yahtzee Bonus',
         helpText:
             'For additional yahtzees, score in any bottom box, or the top value matching the dice. Add one to this box too.',
-        type: BoxOptionType.Bonus,
+        type: BoxOptionType.Count,
+        count: 13,
+        multiplier: 100
     },
     {
         name: 'Total',

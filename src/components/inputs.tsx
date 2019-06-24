@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { DieCountBox, SpecificValueBox, AnyNumberBox, BonusBox } from '../types';
+import { CountBox, SpecificValueBox, AnyNumberBox, BonusBox } from '../types';
 
 interface InputProps {
-    box: DieCountBox | SpecificValueBox | AnyNumberBox | BonusBox;
+    box: CountBox | SpecificValueBox | AnyNumberBox | BonusBox;
     onClick: Function;
 }
 
