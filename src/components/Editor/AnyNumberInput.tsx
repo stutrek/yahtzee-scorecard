@@ -72,7 +72,7 @@ const AnyNumberEntry: React.FC<AnyNumberProps> = ({ box, save, children }) => {
     return (
         <div className={styles.anyNumber}>
             <h3>{box.name}</h3>
-            <div className={styles.close}>{children}</div>
+            {children}
             <h4 className={styles.valueEntered}>&nbsp;{valueEntered || undefined}&nbsp;</h4>
             <div className={styles.keypad}>
                 <button onClick={() => handleClick(1)}>1</button>

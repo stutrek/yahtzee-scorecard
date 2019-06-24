@@ -46,6 +46,11 @@ export const useItemById = <T>(
     table: Dexie.Table<T, any>,
     id: string | number | undefined
 ): ItemHook<T> => {
+
+    if (db.table(table.name) !== table) {
+        throw new Error(`useItemById was provided a table (${table.name}) that does not belong to the provided DB.`);
+    }
+
     const [value, setValue] = useState<T | undefined>();
     let [loading, setLoading] = useState(true);
 
@@ -71,7 +76,7 @@ export const useItemById = <T>(
             setLoading(false);
         });
       
-    }, [db, table, id]);
+    }, [table, id]);
 
     return [loading, value];
 };
@@ -81,6 +86,10 @@ export const useTable = <T>(
     table: Dexie.Table<T, any>
     // initialValue: T
 ): TableHook<T> => {
+    if (db.table(table.name) !== table) {
+        throw new Error(`useTable was provided a table (${table.name}) that does not belong to the provided DB.`);
+    }
+
     const [values, setValues] = useState<T[] | undefined>();
     let [loading, setLoading] = useState(true);
 
@@ -104,7 +113,7 @@ export const useTable = <T>(
             setValues(items);
             setLoading(false);
         });
-    }, [db, table]);
+    }, [table]);
 
     return [loading, values];
 };

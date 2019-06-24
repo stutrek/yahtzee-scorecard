@@ -26,7 +26,7 @@ const CountEntry: React.FC<CountProps> = ({ box, save, children }) => {
     return (
         <div className={styles.count}>
             <h3>{box.name}</h3>
-            <div className={styles.close}>{children}</div>
+            {children}
             <div className={styles.twoColumn}>
             {inputs}
             </div>

@@ -75,6 +75,9 @@ const EditorContainer: React.FC<EditorContainerProps> = ({
         <div className={styles.container} onClick={closeOnDirectClick}>
             <Component box={box} save={save}>
                 <button className={styles.close} onClick={() => dispatch(closeEditor())}>&times;</button>
+                <div className={styles.helpText}>
+                    {box.helpText}
+                </div>
             </Component>
         </div>
     );

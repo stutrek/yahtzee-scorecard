@@ -15,9 +15,9 @@
     border: 1px solid white;
     border-radius: 1vh;
     padding: 2vh;
+    margin: 2vh;
     position: relative;
     font-size: 2.5vh;
-
 }
 
 .inputs button {
@@ -36,22 +36,22 @@
     border: 1px solid var(--white);
 }
 
-.close {
+button.close {
     position: absolute;
     right: 0;
     top: 0;
-}
-
-.close button {
     border: none;
     background: none;
     padding: 0 0.5vh;
     font-size: 3vh;
 }
 
-.close button:active {
+button.close:active {
     color: var(--white);
     background-color: var(--black);
+}
+
+.helpText {
 }
 
 .inputs h3 {

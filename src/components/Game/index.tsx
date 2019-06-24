@@ -67,6 +67,12 @@ const Row: React.FC<PlayersProps> = ({ players, row }) => {
 const GameComponent: React.FC<GameProps> = ({ game }) => {
     return (
         <div className={styles.game}>
+            <div />
+            {game.players.map((player, i) => (
+                <div className={styles.playerName} key={i}>
+                    <span>{player.name}</span>
+                </div>
+            ))}
             {game.players[0].boxes.map((box, i) => (
                 <Row players={game.players} row={i} key={i} />
             ))}

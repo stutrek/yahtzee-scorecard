@@ -2,8 +2,8 @@
     display: grid;
     width: 100%;
     height: 100%;
-    grid-template-columns: 15vh 1fr 1fr 1fr 1fr;
-    grid-template-rows: repeat(17, 1fr);
+    grid-template-columns: 16vh 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
     grid-gap: 1px;
     background-color: #333;
     font-size: 2vh;
@@ -32,4 +32,9 @@
 
 .formulaEmpty {
     composes: formula;
+}
+
+.playerName {
+    composes: cell;
+    background-color: #444;
 }

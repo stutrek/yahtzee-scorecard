@@ -1,5 +1,3 @@
-import { EntryBox, FormulaBox } from '../../types';
-
 export enum actionTypes {
     OPEN_EDITOR = 'OPEN_EDITOR',
     CLOSE_EDITOR = 'CLOSE_EDITOR',

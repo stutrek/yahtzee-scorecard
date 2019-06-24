@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { UIPreference, UIPreferences, Game } from '../types';
+import { UIPreferences, Game } from '../types';
 import createNewGame from './createNewGame';
 import {useItemById, useTable} from './dexie-hooks';
 import db from './db';
-
-let loading = false;
 
 export const useUIPreferences = (): [boolean, UIPreferences, Function] => {
 
@@ -20,7 +18,6 @@ export const useUIPreferences = (): [boolean, UIPreferences, Function] => {
     const prefs: UIPreferences = {};
 
     if (loading === false && prefArray.length === 0) {
-        console.log('adding pref', {loading, prefArray})
         db.preferences.put({
             key: 'showScoresBeforeComplete',
             value: false,
