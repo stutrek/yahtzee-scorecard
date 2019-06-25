@@ -6,12 +6,12 @@ import Editor from './components/Editor';
 import { useSelector } from 'react-redux';
 import { AppState } from './store';
 
-import { useUIPreferences, useCurrentGame } from './data/dataHooks';
+import { usePreferences, useCurrentGame } from './data/dataHooks';
 
 import parser from './data/parser';
 
 const App: React.FC = () => {
-    const [prefsLoading, preferences] = useUIPreferences();
+    const [prefsLoading, preferences] = usePreferences();
     const [game, updateGame] = useCurrentGame();
     
     const editorState = useSelector((state: AppState) => state.editor);

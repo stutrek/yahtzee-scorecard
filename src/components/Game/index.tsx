@@ -7,6 +7,8 @@ import parser from '../../data/parser';
 import { useDispatch } from 'react-redux';
 import { openEditor } from '../Editor/actions';
 
+import PreferencesCell from '../Preferences/Cell';
+
 interface GameProps {
     game: Game;
 }
@@ -67,7 +69,9 @@ const Row: React.FC<PlayersProps> = ({ players, row }) => {
 const GameComponent: React.FC<GameProps> = ({ game }) => {
     return (
         <div className={styles.game}>
-            <div />
+            <div>
+                <PreferencesCell />
+            </div>
             {game.players.map((player, i) => (
                 <div className={styles.playerName} key={i}>
                     <span>{player.name}</span>

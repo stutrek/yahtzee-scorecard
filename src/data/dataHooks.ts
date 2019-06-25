@@ -1,28 +1,40 @@
 import { useState } from 'react';
-import { UIPreferences, Game } from '../types';
+import { Preference, Preferences, Game } from '../types';
 import createNewGame from './createNewGame';
+import createDefaultPrefs from './createDefaultPrefs';
 import {useItemById, useTable} from './dexie-hooks';
 import db from './db';
 
-export const useUIPreferences = (): [boolean, UIPreferences, Function] => {
+export const usePreferenceArray = (): [boolean, Preference[] | undefined, Function] => {
 
     const [loading, prefArray] = useTable(db, db.preferences);
-    const setPreference = (key: string, value: string | number | boolean) => {
-        db.preferences.put({key, value}, key);
+    const setPreference = async (key: string, value: string | number | boolean) => {
+        const pref = await db.preferences.get(key);
+        if (pref !== undefined) {
+            pref.value = value;
+            db.preferences.put(pref, key);
+        }
     }
+
+    if (loading === false && (prefArray === undefined || prefArray.length === 0)) {
+        db.preferences.bulkPut(createDefaultPrefs());
+    }
+
+    return [loading, prefArray, setPreference];
+  
+}
+
+export const usePreferences = (): [boolean, Preferences, Function] => {
+
+    const [loading, prefArray, setPreference] = usePreferenceArray();
 
     if (prefArray === undefined) {
         return [true, {}, setPreference];
     }
 
-    const prefs: UIPreferences = {};
+    const prefs: Preferences = {};
 
-    if (loading === false && prefArray.length === 0) {
-        db.preferences.put({
-            key: 'showScoresBeforeComplete',
-            value: false,
-        });
-    } else {
+    if (prefArray && prefArray.length !== 0) {
         for (const pref of prefArray) {
             prefs[pref.key] = pref.value;
         }

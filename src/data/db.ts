@@ -1,11 +1,11 @@
 import Dexie from 'dexie';
 import 'dexie-observable';
 
-import { Game, UIPreference } from '../types';
+import { Game, Preference } from '../types';
 
 class YahtzeeDB extends Dexie {
     games: Dexie.Table<Game, string>;
-    preferences: Dexie.Table<UIPreference, string>;
+    preferences: Dexie.Table<Preference, string>;
 
     constructor(dbName: string) {
         super(dbName);

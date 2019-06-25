@@ -6,6 +6,12 @@ export enum BoxOptionType {
     Formula,
 }
 
+export enum PreferenceTypes {
+    Boolean,
+    Number,
+    String
+}
+
 export interface EntryBox {
     readonly name: string;
     readonly helpText: string;
@@ -73,11 +79,29 @@ export interface Game {
     players: Player[];
 }
 
-export interface UIPreference {
-    key: string,
-    value: boolean | string | number
+export interface BooleanPreference {
+    readonly key: string;
+    readonly label: string;
+    readonly type: PreferenceTypes.Boolean;
+    value: boolean;
 }
 
-export interface UIPreferences {
+export interface NumberPreference {
+    readonly key: string;
+    readonly label: string;
+    readonly type: PreferenceTypes.Number;
+    value: number;
+}
+
+export interface StringPreference {
+    readonly key: string;
+    readonly label: string;
+    readonly type: PreferenceTypes.String;
+    value: string;
+}
+
+export type Preference = BooleanPreference | NumberPreference | StringPreference
+
+export interface Preferences {
     [index: string]: boolean | string | number;
 }
