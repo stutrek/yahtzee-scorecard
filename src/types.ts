@@ -75,6 +75,7 @@ export interface Player {
 
 export interface Game {
     id?: string;
+    dateCreated?: Date;
     complete: boolean;
     players: Player[];
 }

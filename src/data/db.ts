@@ -11,7 +11,7 @@ class YahtzeeDB extends Dexie {
         super(dbName);
 
         this.version(1).stores({
-            games: '$$id',
+            games: '$$id, dateCreated',
             preferences: 'key',
         });
 

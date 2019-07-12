@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import Dexie from 'dexie';
+import { any } from 'prop-types';
 
 type TableHook<T> = [boolean, undefined | T[]];
 type ItemHook<T> = [boolean, undefined | T];
@@ -12,6 +13,7 @@ interface IDatabaseChangeMock {
 interface Listeners {}
 
 const dbs: Map<Dexie, Function[]> = new Map();
+const countCache: Map<Dexie.Table<any, any>, number> = new Map();
 
 const addListener = (db: Dexie, listener: Function): void => {
     if (!dbs.get(db)) {
@@ -117,3 +119,32 @@ export const useTable = <T>(
 
     return [loading, values];
 };
+
+export const useCount = (db: Dexie, table: Dexie.Table<any, any>): number | undefined => {
+    const [count, setCountState] = useState(countCache.get(table));
+
+    const setCount = (val: number) => {
+        setCountState(val);
+        countCache.set(table, val);
+
+    }
+
+    useEffect(() => {
+        const handleChange = async (changes: IDatabaseChangeMock[]) => {
+            for (const change of changes) {
+                if (change.table === table.name) {
+                    table.count().then(setCount);
+                    return;
+                }
+            }
+        };
+        addListener(db, handleChange);
+        return () => removeListener(db, handleChange);
+    }, [db, table]);
+
+    if (count === undefined) {
+        table.count().then(setCount);
+    }
+
+    return count;
+}

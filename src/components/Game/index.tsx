@@ -2,12 +2,11 @@ import React from 'react';
 import styles from './game.module.css';
 
 import { Game, Player, BoxOptionType, FormulaBox } from '../../types';
-import parser from '../../data/parser';
 
 import { useDispatch } from 'react-redux';
-import { openEditor } from '../Editor/actions';
 
 import PreferencesCell from '../Preferences/Cell';
+import { FormulaBoxView, BoxView } from './Boxes';
 
 interface GameProps {
     game: Game;
@@ -18,24 +17,6 @@ interface PlayersProps {
     row: number;
 }
 
-interface FormulaBoxProps {
-    player: Player;
-    box: FormulaBox;
-}
-
-const FormulaBoxView: React.FC<FormulaBoxProps> = ({ player, box }) => {
-    parser.player = player;
-    const shouldShow = box.calculateIf ? parser.parse(box.calculateIf).result : true;
-    if (shouldShow === false) {
-        return <div className={styles.formulaEmpty} />;
-    }
-    const result = parser.parse(box.formula).result;
-    return (
-        <div className={styles.formula}>
-            <span>{result}</span>
-        </div>
-    );
-};
 
 const Row: React.FC<PlayersProps> = ({ players, row }) => {
     const dispatch = useDispatch();
@@ -51,15 +32,8 @@ const Row: React.FC<PlayersProps> = ({ players, row }) => {
                         return <FormulaBoxView player={player} box={box} key={i} />;
 
                     default:
-                        return (
-                            <div
-                                className={styles.cell}
-                                key={i}
-                                onClick={() => dispatch(openEditor({ player: i, box: row }))}
-                            >
-                                <span>{box.points}</span>
-                            </div>
-                        );
+                        return <BoxView playerIndex={i} box={box} row={row} key={i} />
+                        
                 }
             })}
         </React.Fragment>

@@ -4,6 +4,8 @@ import createNewGame from './createNewGame';
 import createDefaultPrefs from './createDefaultPrefs';
 import {useItemById, useTable} from './dexie-hooks';
 import db from './db';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeGame } from '../components/Game/actions';
 
 export const usePreferenceArray = (): [boolean, Preference[] | undefined, Function] => {
 
@@ -44,19 +46,23 @@ export const usePreferences = (): [boolean, Preferences, Function] => {
 };
 
 let currentGameId = sessionStorage.getItem('current-game') || undefined;
+let creating = false;
+
 export const useCurrentGame = (): [Game | undefined, Function, Function] => {
 
-    const [gameId, setGameId] = useState(currentGameId);
+    const dispatch = useDispatch();
+    const gameId = useSelector((state: any) => state.game.gameId);
     
     async function updateGame(newGame: Game): Promise<void> {
         if (newGame.id !== currentGameId) {
             if (newGame.id === undefined) {
+                newGame.dateCreated = new Date();
                 newGame.id = await db.games.add(newGame);
             }
-            setGameId(newGame.id);
+            dispatch(changeGame(newGame.id));
             sessionStorage.setItem('current-game', newGame.id);
         } else {
-            db.games.put(newGame, newGame.id);
+            await db.games.put(newGame, newGame.id);
         }
     }
     
@@ -65,7 +71,8 @@ export const useCurrentGame = (): [Game | undefined, Function, Function] => {
         await updateGame(game);
     }
 
-    if (gameId === undefined) {
+    if (gameId === undefined && creating === false) {
+        creating = true;
         db.games
         .toCollection()
         .last()
@@ -75,12 +82,14 @@ export const useCurrentGame = (): [Game | undefined, Function, Function] => {
             } else {
                 updateGame(game);
             }
+            creating = false;
         });
 
     }
-    const [loading, game] = useItemById(db, db.games, gameId);
+    const [loading, game] = useItemById(db, db.games, gameId || '-1');
 
-    if (loading === false && game === undefined) {
+    if (loading === false && game === undefined && creating === false) {
+        creating = true;
         newGame();
     }
 
